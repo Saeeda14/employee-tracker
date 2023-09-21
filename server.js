@@ -1,51 +1,56 @@
-const connection = require('./config/connection');
+const mysql = require('mysql2'); 
+const inquirer = require('inquirer');
+
+// creating a connection to the mysql db 
+const connection = mysql.createConnection({
+    host: '127.0.0.1', 
+    port: 3306,
+    user: 'root',
+    database: 'employee_db'
+});
+
+// connecting to db
+connection.connect((err) => {
+    if (err) throw err; 
+    console.log('Connected to MySQL Database');
+});
 
 // View all departments
 function viewAllDepartments() {
-  return connection.promise().query('SELECT * FROM department');
-}
+    return connection.promise().query('SELECT * FROM department');
+  }
+  
+  // View all roles
+  function viewAllRoles() {
+    return connection.promise().query('SELECT * FROM role');
+  }
+  
+  // View all employees
+  function viewAllEmployees() {
+    return connection.promise().query('SELECT * FROM employee');
+  }
+  
+  // Add a department
+  function addDepartment(name) {
+    return connection.promise().query('INSERT INTO department (name) VALUES (?)', [name]);
+  }
+  
+  // Add a role
+  function addRole(title, salary, departmentId) {
+    return connection.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, departmentId]);
+  }
+  
+  // Add an employee
+  function addEmployee(firstName, lastName, roleId, managerId) {
+    return connection.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [firstName, lastName, roleId, managerId]);
+  }
+  
+  // Update an employee role
+  function updateEmployeeRole(employeeId, roleId) {
+    return connection.promise().query('UPDATE employee SET role_id = ? WHERE id = ?', [roleId, employeeId]);
+  }
 
-// View all roles
-function viewAllRoles() {
-  return connection.promise().query('SELECT * FROM role');
-}
-
-// View all employees
-function viewAllEmployees() {
-  return connection.promise().query('SELECT * FROM employee');
-}
-
-// Add a department
-function addDepartment(name) {
-  return connection.promise().query('INSERT INTO department (name) VALUES (?)', [name]);
-}
-
-// Add a role
-function addRole(title, salary, departmentId) {
-  return connection.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, departmentId]);
-}
-
-// Add an employee
-function addEmployee(firstName, lastName, roleId, managerId) {
-  return connection.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [firstName, lastName, roleId, managerId]);
-}
-
-// Update an employee role
-function updateEmployeeRole(employeeId, roleId) {
-  return connection.promise().query('UPDATE employee SET role_id = ? WHERE id = ?', [roleId, employeeId]);
-}
-
-module.exports = {
-  viewAllDepartments,
-  viewAllRoles,
-  viewAllEmployees,
-  addDepartment,
-  addRole,
-  addEmployee,
-  updateEmployeeRole,
-};
-
-function start() {
+  function start() {
     inquirer
       .prompt([
         {
@@ -197,3 +202,5 @@ function start() {
       
       // Start the application
       start();
+
+   
