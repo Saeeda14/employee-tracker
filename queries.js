@@ -64,3 +64,19 @@ function start() {
           ],
         },
       ])
+      .then((answer) => {
+        switch (answer.action) {
+          case 'View all departments':
+            viewAllDepartments().then((departments) => {
+              console.table(departments[0]);
+              start();
+            });
+            break;
+  
+          case 'View all roles':
+            viewAllRoles().then((roles) => {
+              console.table(roles[0]);
+              start();
+            });
+            break;
+  
