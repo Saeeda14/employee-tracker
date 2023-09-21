@@ -79,4 +79,52 @@ function start() {
               start();
             });
             break;
-  
+            case 'View all employees':
+                viewAllEmployees().then((employees) => {
+                  console.table(employees[0]);
+                  start();
+                });
+                break;
+      
+              case 'Add a department':
+                inquirer
+                  .prompt([
+                    {
+                      type: 'input',
+                      name: 'name',
+                      message: 'Enter the name of the department:',
+                    },
+                  ])
+                  .then((department) => {
+                    addDepartment(department.name).then(() => {
+                      console.log('Department added successfully!');
+                      start();
+                    });
+                  });
+                break;
+      
+              case 'Add a role':
+                // Prompt for role information and call addRole function
+                break;
+      
+              case 'Add an employee':
+                // Prompt for employee information and call addEmployee function
+                break;
+      
+              case 'Update an employee role':
+                // Prompt for employee and new role information and call updateEmployeeRole function
+                break;
+      
+              case 'Exit':
+                console.log('Goodbye!');
+                process.exit();
+      
+              default:
+                console.log('Invalid action');
+                start();
+            }
+          });
+      }
+      
+      // Start the application
+      start();
