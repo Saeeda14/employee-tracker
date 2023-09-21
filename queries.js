@@ -104,11 +104,34 @@ function start() {
                 break;
       
               case 'Add a role':
-                // Prompt for role information and call addRole function
+                inquirer
+                  .prompt([
+                    {
+                      type: 'input',
+                      name: 'title',
+                      message: 'Enter the title of the role:',
+                    },
+                    {
+                      type: 'input',
+                      name: 'salary',
+                      message: 'Enter the salary for the role:',
+                    },
+                    {
+                      type: 'input',
+                      name: 'departmentId',
+                      message: 'Enter the department ID for the role:',
+                    },
+                  ])
+                  .then((role) => {
+                    addRole(role.title, role.salary, role.departmentId).then(() => {
+                      console.log('Role added successfully!');
+                      start();
+                    });
+                  });
                 break;
       
               case 'Add an employee':
-                // Prompt for employee information and call addEmployee function
+                
                 break;
       
               case 'Update an employee role':
